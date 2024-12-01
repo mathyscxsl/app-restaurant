@@ -9,7 +9,7 @@ const verifyToken = (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');
 
     if (!token) {
-        return res.status(401).json({ message: 'Accès non autorisé, token manquant' });
+        return res.status(401).json({ message: 'Accès non autorisé' });
     }
 
     try {
@@ -17,7 +17,7 @@ const verifyToken = (req, res, next) => {
         req.user = user;
         next();
     } catch (err) {
-        return res.status(403).json({ message: 'Token invalide ou expiré.' });
+        return res.status(403).json({ message: 'Votre session a expiré. veuillez vous reconnecter.' });
     }
 };
 
