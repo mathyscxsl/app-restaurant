@@ -3,6 +3,10 @@ const sequelize = require('../config/db');
 const User = require('./User');
 
 const Restaurant = sequelize.define('Restaurant', {
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     address: {
         type: DataTypes.STRING,
         allowNull: false,
