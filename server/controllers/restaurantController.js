@@ -129,14 +129,21 @@ const deleteRestaurant = async (req, res) => {
             return res.status(404).json({ message: "Restaurant introuvable." });
         }
 
+        const user = await User.findByPk(restaurant.userId);
+        
+        if (user) {
+            await user.destroy();
+        }
+
         await restaurant.destroy();
 
-        return res.status(200).json({ message: "Restaurant supprimé avec succès." });
+        return res.status(200).json({ message: "Restaurant et utilisateur associé supprimés avec succès." });
     } catch (error) {
         console.error("Erreur lors de la suppression du restaurant :", error);
         return res.status(500).json({ message: "Erreur serveur." });
     }
 };
+
 
 module.exports = {
     createRestaurant,
