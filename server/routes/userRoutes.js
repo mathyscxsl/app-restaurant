@@ -1,5 +1,6 @@
 const express = require('express');
 const userController = require('../controllers/userController');
+const verifyToken = require('../middlewares/verifyToken');
 const { validateUserCreation } = require('../middlewares/validateUserCreation');
 const { validateUserLogin } = require('../middlewares/validateUserLogin');
 
