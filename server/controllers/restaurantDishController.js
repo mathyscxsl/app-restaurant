@@ -42,12 +42,18 @@ const getDishForRestaurant = async (req, res) => {
 const addDishToRestaurant = async (req, res) => {
     const { restaurantId } = req.params;
     const { name, price, description } = req.body;
+    const userId = req.user.userId;
+    const userRole = req.user.role;
 
     try {
         const restaurant = await Restaurant.findByPk(restaurantId);
 
         if (!restaurant) {
             return res.status(404).json({ message: 'Restaurant introuvable.' });
+        }
+        
+        if (userRole !== 'admin' && userId !== restaurant.userId) {
+            return res.status(403).json({ message: 'Accès non autorisé.' });
         }
 
         const dish = await Dish.create({
@@ -67,8 +73,20 @@ const addDishToRestaurant = async (req, res) => {
 const updateDishForRestaurant = async (req, res) => {
     const { restaurantId, dishId } = req.params;
     const { name, price, description } = req.body;
+    const userId = req.user.userId;
+    const userRole = req.user.role;
 
     try {
+        const restaurant = await Restaurant.findByPk(restaurantId);
+
+        if (!restaurant) {
+            return res.status(404).json({ message: 'Restaurant introuvable.' });
+        }
+
+        if (userRole !== 'admin' && userId !== restaurant.userId) {
+            return res.status(403).json({ message: 'Accès non autorisé.' });
+        }
+
         const dish = await Dish.findOne({
             where: { id: dishId, restaurantId },
         });
@@ -92,8 +110,20 @@ const updateDishForRestaurant = async (req, res) => {
 
 const deleteDishForRestaurant = async (req, res) => {
     const { restaurantId, dishId } = req.params;
+    const userId = req.user.userId;
+    const userRole = req.user.role;
 
     try {
+        const restaurant = await Restaurant.findByPk(restaurantId);
+
+        if (!restaurant) {
+            return res.status(404).json({ message: 'Restaurant introuvable.' });
+        }
+
+        if (userRole !== 'admin' && userId !== restaurant.userId) {
+            return res.status(403).json({ message: 'Accès non autorisé.' });
+        }
+
         const dish = await Dish.findOne({
             where: { id: dishId, restaurantId },
         });

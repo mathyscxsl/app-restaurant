@@ -13,10 +13,6 @@ const validateDishCreation = [
         .optional()
         .isLength({ max: 255 }).withMessage('La description ne doit pas dépasser 255 caractères.'),
 
-    check('restaurantId')
-        .notEmpty().withMessage('L\'identifiant du restaurant est obligatoire.')
-        .isInt().withMessage('L\'identifiant du restaurant doit être un entier.'),
-
     (req, res, next) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {

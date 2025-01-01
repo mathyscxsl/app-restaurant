@@ -1,6 +1,6 @@
 const { check, validationResult } = require('express-validator');
 
-const validateRestaurantEdition = [
+const validateRestaurantEdit = [
     check('name')
         .optional()
         .isLength({ max: 100 }).withMessage('Le nom ne doit pas dépasser 100 caractères.'),
@@ -34,4 +34,4 @@ const validateRestaurantEdition = [
     },
 ];
 
-module.exports = { validateRestaurantEdition };
+module.exports = { validateRestaurantEdit };
