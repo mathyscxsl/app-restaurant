@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
 const User = require('./User');
+const Dish = require('./Dish');
 
 const Restaurant = sequelize.define('Restaurant', {
     name: {
@@ -25,5 +26,7 @@ const Restaurant = sequelize.define('Restaurant', {
 
 Restaurant.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE' });
 User.hasOne(Restaurant, { foreignKey: 'userId', onDelete: 'CASCADE' });
+Restaurant.hasMany(Dish, { foreignKey: 'restaurantId', as: 'dishes', onDelete: 'CASCADE' });
+Dish.belongsTo(Restaurant, { foreignKey: 'restaurantId', as: 'restaurant', });
 
 module.exports = Restaurant;
