@@ -26,7 +26,7 @@ const Restaurant = sequelize.define('Restaurant', {
 
 Restaurant.belongsTo(User, { foreignKey: 'userId', onDelete: 'CASCADE' });
 User.hasOne(Restaurant, { foreignKey: 'userId', onDelete: 'CASCADE' });
-Restaurant.hasMany(Dish, { foreignKey: 'restaurantId', as: 'dishes', onDelete: 'CASCADE' });
-Dish.belongsTo(Restaurant, { foreignKey: 'restaurantId', as: 'restaurant', });
+Restaurant.hasMany(Dish, { foreignKey: 'restaurantId', onDelete: 'CASCADE' });
+Dish.belongsTo(Restaurant, { foreignKey: 'restaurantId' });
 
 module.exports = Restaurant;

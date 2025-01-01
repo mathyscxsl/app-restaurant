@@ -7,7 +7,6 @@ const Dish = require('./models/Dish');
 const Order = require('./models/Order');
 const userRoutes = require('./routes/userRoutes');
 const restaurantRoutes = require('./routes/restaurantRoutes');
-const dishRoutes = require('./routes/dishRoutes');
 const orderRoutes = require('./routes/orderRoutes');
 
 const app = express();
@@ -17,7 +16,6 @@ app.use(express.json());
 
 app.use('/api/users', userRoutes);
 app.use('/api/restaurants', restaurantRoutes);
-app.use('/api/dishes',  dishRoutes);
 app.use('/api/orders', orderRoutes);
 
 sequelize.authenticate()
