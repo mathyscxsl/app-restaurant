@@ -79,10 +79,6 @@ const editRestaurant = async (req, res) => {
             return res.status(404).json({ message: "Restaurant introuvable." });
         }
 
-        if (userRole !== 'admin' && userId !== restaurant.userId) {
-            return res.status(403).json({ message: "Accès non autorisé." });
-        }
-
         restaurant.name = name || restaurant.name;
         restaurant.address = address || restaurant.address;
         restaurant.postalCode = postalCode || restaurant.postalCode;

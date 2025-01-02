@@ -70,18 +70,12 @@ const loginUser = async (req, res) => {
 const editUser = async (req, res) => {
     const { id } = req.params;
     const { name, email, password } = req.body;
-    const userId = req.user.userId;
-    const userRole = req.user.role;
 
     try {
         const user = await User.findByPk(id);
 
         if (!user) {
             return res.status(404).json({ message: "Utilisateur introuvable." });
-        }
-
-        if (userRole !== 'admin' && userId !== user.id) {
-            return res.status(403).json({ message: "Accès non autorisé." });
         }
 
         user.name = name || user.name;
@@ -114,10 +108,6 @@ const deleteUser = async (req, res) => {
     const userRole = req.user.role;
 
     try {
-        if (userRole !== 'admin') {
-            return res.status(403).json({ message: "Accès non autorisé." });
-        }
-
         const user = await User.findByPk(id);
 
         if (!user) {
