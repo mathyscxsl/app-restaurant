@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const verifyToken = require('../middlewares/verifyToken');
-const restrictIfAuthenticated = require('../middlewares/restrictIfAuthenticated');
 const checkRole = require('../middlewares/checkRole');
 const checkUserRestaurant = require('../middlewares/checkUserRestaurant');
 const { validateRestaurantCreation } = require('../middlewares/validateRestaurantCreation');

@@ -1,4 +1,4 @@
-const { Restaurant } = require('../models/Restaurant');
+const Restaurant = require('../models/Restaurant');
 
 const checkUserRestaurant = () => async (req, res, next) => {
     try {
@@ -17,10 +17,10 @@ const checkUserRestaurant = () => async (req, res, next) => {
                     userId: userId,
                 },
             });
-        }
 
-        if (!resource) {
-            return res.status(404).json({ message: "Ressource non trouvée." });
+            if (!resource) {
+                return res.status(404).json({ message: "Accès refusé." });
+            }
         }
 
         if (userRole !== 'admin' && resource.userId !== userId) {
