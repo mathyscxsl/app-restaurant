@@ -3,7 +3,7 @@ const User = require('../models/User');
 const Restaurant = require('../models/Restaurant');
 
 const createRestaurant = async (req, res) => {
-    const { name, address, postalCode, city, email, password } = req.body;
+    const { name, address, postalCode, city, email, password, image } = req.body;
 
     try {
         const existingUser = await User.findOne({ where: { email } });
@@ -25,6 +25,7 @@ const createRestaurant = async (req, res) => {
             address,
             postalCode,
             city,
+            image: image || null,
             userId: user.id,
         });
 
@@ -35,6 +36,7 @@ const createRestaurant = async (req, res) => {
                 address: restaurant.address,
                 postalCode: restaurant.postalCode,
                 city: restaurant.city,
+                image: restaurant.image,
                 user: {
                     id: user.id,
                     name: user.name,
@@ -49,6 +51,7 @@ const createRestaurant = async (req, res) => {
     }
 };
 
+
 const getAllRestaurants = async (req, res) => {
     try {
         const restaurants = await Restaurant.findAll({
@@ -56,7 +59,7 @@ const getAllRestaurants = async (req, res) => {
                 model: User,
                 attributes: ['id', 'name', 'email'],
             },
-            attributes: ['id', 'address', 'postalCode', 'city'],
+            attributes: ['id', 'name', 'address', 'postalCode', 'city', 'image'],
         });
 
         return res.status(200).json({ restaurants });
@@ -66,11 +69,10 @@ const getAllRestaurants = async (req, res) => {
     }
 };
 
+
 const editRestaurant = async (req, res) => {
     const { id } = req.params;
-    const { name, address, postalCode, city } = req.body;
-    const userId = req.user.userId;
-    const userRole = req.user.role;
+    const { name, address, postalCode, city, image } = req.body;
 
     try {
         const restaurant = await Restaurant.findByPk(id);
@@ -83,15 +85,7 @@ const editRestaurant = async (req, res) => {
         restaurant.address = address || restaurant.address;
         restaurant.postalCode = postalCode || restaurant.postalCode;
         restaurant.city = city || restaurant.city;
-
-        if (name) {
-            const user = await User.findByPk(restaurant.userId);
-            if (user) {
-                user.name = name;
-                await user.save();
-            }
-            restaurant.name = name;
-        }
+        restaurant.image = image || restaurant.image;
 
         await restaurant.save();
 
@@ -103,10 +97,7 @@ const editRestaurant = async (req, res) => {
                 address: restaurant.address,
                 postalCode: restaurant.postalCode,
                 city: restaurant.city,
-                user: {
-                    id: restaurant.userId,
-                    name: name || req.user.name,
-                },
+                image: restaurant.image,
             },
         });
     } catch (error) {
@@ -114,6 +105,7 @@ const editRestaurant = async (req, res) => {
         return res.status(500).json({ message: "Erreur serveur." });
     }
 };
+
 
 const deleteRestaurant = async (req, res) => {
     const { id } = req.params;
