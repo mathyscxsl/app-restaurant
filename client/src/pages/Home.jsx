@@ -9,11 +9,11 @@ const Home = () => {
         const fetchRestaurants = async () => {
         try {
             const response = await axios.get('http://localhost:4000/api/restaurants');
-            setRestaurants(response.data);
+            setRestaurants(response.data.restaurants);
         } catch (error) {
             console.error('Erreur lors de la récupération des restaurants:', error);
         } finally {
-            setLoading(false); // Fin du chargement
+            setLoading(false);
         }
         };
 
