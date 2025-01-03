@@ -1,18 +1,35 @@
 const { Restaurant } = require('../models/Restaurant');
 
-const checkUserRestaurant = (userIdField) => async (req, res, next) => {
+const checkUserRestaurant = () => async (req, res, next) => {
     try {
-        const resource = await Restaurant.findByPk(req.params.id);
+        const restaurantId = req.params.id;
+        const userId = req.user.userId;
+        const userRole = req.user.role;
+
+        let resource;
+
+        if (userRole === 'admin') {
+            resource = await Restaurant.findByPk(restaurantId);
+        } else {
+            resource = await Restaurant.findOne({
+                where: {
+                    id: restaurantId,
+                    userId: userId,
+                },
+            });
+        }
+
         if (!resource) {
             return res.status(404).json({ message: "Ressource non trouvée." });
         }
 
-        if (req.user.role === 'admin' || resource[userIdField] === req.user.id) {
-            return next();
+        if (userRole !== 'admin' && resource.userId !== userId) {
+            return res.status(403).json({ message: "Accès refusé." });
         }
 
-        return res.status(403).json({ message: "Accès refusé." });
+        return next();
     } catch (error) {
+        console.error('Erreur dans checkUserRestaurant:', error);
         return res.status(500).json({ message: "Erreur serveur.", error });
     }
 };
