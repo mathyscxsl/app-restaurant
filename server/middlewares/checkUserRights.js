@@ -1,6 +1,6 @@
 const checkUserRights = (req, res, next) => {
     const userIdFromParams = parseInt(req.params.id, 10);
-    const userIdFromToken = req.user.id;
+    const userIdFromToken = req.user.userId;
     const userRole = req.user.role;
 
     if (userRole === 'admin' || userIdFromParams === userIdFromToken) {
