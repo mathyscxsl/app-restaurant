@@ -29,11 +29,17 @@ const Home = () => {
         <h1 className="text-3xl font-bold text-center mb-6">Liste des Restaurants</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {restaurants.map((restaurant) => (
-                <div key={restaurant.id} className="restaurant-card">
-                    <img src={restaurant.image} alt={restaurant.name} className="restaurant-image" />
-                    <h2>{restaurant.name}</h2>
-                    <p>{restaurant.address}, {restaurant.city}</p>
-                </div>
+            <div
+                key={restaurant.id}
+                className="border p-4 rounded-lg shadow hover:shadow-lg transition"
+            >
+                <img src={restaurant.image} alt={restaurant.name} className="restaurant-image" />
+                <h2 className="text-2xl font-bold">{restaurant.name}</h2>
+                <p className="text-gray-600">{restaurant.address}</p>
+                <p className="text-gray-500">
+                {restaurant.postalCode}, {restaurant.city}
+                </p>
+            </div>
             ))}
         </div>
         </div>

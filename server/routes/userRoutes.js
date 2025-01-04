@@ -9,6 +9,7 @@ const { validateUserLogin } = require('../middlewares/validateUserLogin');
 
 
 router.post('/register', restrictIfAuthenticated, validateUserCreation, userController.createUser);
+router.get('/:id', verifyToken, checkUserRights, userController.getUserById);
 router.post('/login', restrictIfAuthenticated, validateUserLogin, userController.loginUser);
 router.put('/:id', verifyToken, checkUserRights, userController.editUser);
 router.delete('/:id', verifyToken, checkUserRights, userController.deleteUser);

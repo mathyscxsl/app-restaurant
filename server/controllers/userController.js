@@ -36,6 +36,29 @@ const createUser = async (req, res) => {
     }
 };
 
+const getUserById = async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const user = await User.findByPk(id);
+
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur introuvable." });
+        }
+
+        return res.status(200).json({
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role,
+        });
+    } catch (error) {
+        console.error("Erreur lors de la récupération de l'utilisateur :", error);
+        return res.status(500).json({ message: "Erreur serveur." });
+    }
+};
+
+
 const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
@@ -123,7 +146,8 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = { 
-    createUser, 
+    createUser,
+    getUserById,
     loginUser,
     editUser,
     deleteUser 
